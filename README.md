@@ -1,2 +1,2 @@
 # simpClock
-A simple python timeclock. Track time spend on projects
+A simple python timeclock. Track time spent on projects
