@@ -1,5 +1,4 @@
 import sqlite3
-
 """
 
 """
@@ -11,6 +10,7 @@ def create_setup_tables(db_file):
 		- db_file: database file
 		Example Usage:
 		- create_projects_table("test.db") This is not necessary
+
 	"""
 	connection = sqlite3.connect(db_file)
 	cursor = connection.cursor()
@@ -19,13 +19,13 @@ def create_setup_tables(db_file):
 		cursor.execute("""CREATE TABLE IF NOT EXISTS projects (
 			id INTEGER PRIMARY KEY,
 			project TEXT NOT NULL,
-			current_project BOOL,
-			hours REAL,
 			hourly_rate REAL,
+			status TEXT,
+			hours REAL,
+			current_project BOOL,
 			last_worked_on DATE,
 			created_at DATE,
 			finished_at DATE,
-			status TEXT,
 			notes INTEGER,
 			customer_id INTEGER,
 			FOREIGN KEY (notes) REFERENCES notes(id),
@@ -68,14 +68,14 @@ def insert_project(db_file, project):
 	cursor = connection.cursor()
 	try:
 		cursor.execute("""INSERT INTO projects (
-	    project, current_project, hours, hourly_rate,
-	    last_worked_on, created_at, finished_at, status,
+	    project, hourly_rate, status, hours, current_project,
+	    last_worked_on, created_at, finished_at, 
 	    notes, customer_id)
 	    VALUES (?, ?, ?, ?, ?, ?, NULL, ?, NULL, ?)
 		""", (
-		project.name, project.current_project, project.total_hours,
-		project.hourly_rate, project.last_worked_on, project.create_date,
-		project.status, project.customer
+		project.name, project.hourly_rate, project.status,
+		project.hours, project.current_project, project.last_worked_on,
+		project.created_at, project.finished_at,
 		))
 		print("successfully inserted project")
 		connection.commit()
@@ -86,15 +86,7 @@ def insert_project(db_file, project):
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-def load_projects(db_file, status):
-	"""
-		Parameters:
-		- db_file: database file
-		- status:  you want to load projects of this status
-	"""
-	projects = []
 
-	return projects
 
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
